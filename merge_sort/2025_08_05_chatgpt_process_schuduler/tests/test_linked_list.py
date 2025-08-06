@@ -51,7 +51,7 @@ def test_linkedlist_add_failure_pid_over_max():
     Test LinkedList method add propagates Node's errors.
     """
 
-    with pytest.raises(ValueError, match="pid value is over 10**9"):
+    with pytest.raises(ValueError, match=r"pid value is over 10\*\*9"):
         llist = LinkedList()
         llist.add(10**10, 10)
 
@@ -74,32 +74,48 @@ def test_linkedlist_add_node_failure():
     addition (i.e. the Node already has a neighbor.)
     """
 
-    # TODO
-    ...
+    n1 = Node(10, 10)
+    n2 = Node(11, 11)
+    n1.set_neighbor(n2)
+
+    assert n1.has_neighbor() is True
+
+    llist = LinkedList()
+    with pytest.raises(ValueError, match="A node with neighbor could not be added to a LinkedList"):
+        llist.add_node(n1)
+
 
 def test_linkedlist_size_zero_node():
     """
     Test LinkedList method size with a empty LinkedList.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    assert llist.size() == 0
+
 
 def test_linkedlist_size_one_node():
     """
     Test LinkedList method size with a LinkedList with one Node (head).
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    llist.add(10, 10)
+    assert llist.size() == 1
+
+
 
 def test_linkedlist_size_100_nodes():
     """
     Test LinkedList method with a LinkedList with 100 Nodes.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    for n in range(1, 101):
+        llist.add(n, n)
+
+    assert llist.size() == 100
+
 
 def test_linkedlist_traverse_success_zero_nodes():
     """
@@ -162,16 +178,19 @@ def test_linkedlist_repr_zero_nodes():
     Test LinkedList method __repr__ in a LinkedList with zero Nodes.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    assert llist.__repr__() == "<Head: None>"
+
 
 def test_linkedlist_repr_one_node():
     """
     Test LinkedList method __repr__ in a LinkedList with one Node.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    llist.add(10, 10)
+    assert llist.__repr__() == "<Head: pid 10 | prio 10>"
+
 
 def test_linkedlist_repr_multiple_nodes():
     """

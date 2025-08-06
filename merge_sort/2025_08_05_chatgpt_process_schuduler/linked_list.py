@@ -19,7 +19,7 @@ class LinkedList:
         Internal method to validate head addition.
         """
 
-        if node.has_neighbor():
+        if node.neighbor != self.head:
             raise ValueError("A Node with neighbor could not be a LinkedList head.")
 
         self.head = node
@@ -51,7 +51,10 @@ class LinkedList:
         Adds a preexisting Node on the head after validate if the node has
         no neighbor.
         """
-        node.set_neighbor(self.head)
+
+        if self.head:
+            node.set_neighbor(self.head)
+
         self._add_head(node)
 
     def size(self) -> int:
@@ -94,12 +97,12 @@ class LinkedList:
         """
         String representation of a LinkedList.
         """
-        current = self.head
-        if current.pid:
-            result = f"<Head: pid {current.pid}>"
-        else:
-            result = f"<Head: None>"
 
+        current = self.head
+        if not current:
+            return f"<Head: None>"
+
+        result = f"<Head: pid {current.pid} | prio {current.prio}>"
 
         if current.has_neighbor():
             result += " → "
@@ -108,10 +111,10 @@ class LinkedList:
 
         while current:
             if not current.has_neighbor():
-                result += f"<Tail: {current.pid}>"
+                result += f"<Tail: pid {current.pid} | prio {current.prio}>"
                 break
             else:
-                result += f"<{current.pid}> → "
+                result += f"<pid {current.pid} | prio {current.prio}> → "
                 current = current.neighbor
 
         return result
