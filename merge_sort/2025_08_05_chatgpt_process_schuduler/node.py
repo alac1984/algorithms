@@ -34,10 +34,10 @@ class Node:
 
         return self.neighbor is not None
 
-    def __eq__(self, other: 'Node'):
+    def __eq__(self, other: 'Node') -> bool:
         """Determine if a Node is equal to other"""
         if not isinstance(other, Node):
-            raise TypeError("Node type can be only compared to itself.")
+            return False
 
         return self.pid == other.pid and self.prio == other.prio
 

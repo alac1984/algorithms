@@ -24,7 +24,6 @@ class LinkedList:
 
         self.head = node
 
-
     def is_empty(self) -> bool:
         """
         Checks if a LinkedList is empty (if there's no head, it
@@ -73,17 +72,21 @@ class LinkedList:
 
         return count
 
+    def sort(self) -> None:
+        ...
+
+        # TODO: Method
 
     def traverse(self, index: int) -> Node:
         """
         Returns the node at a given index.
 
-        Runs in O(index) time and O(1) space.
+        Runs in O(n) time and O(1) space.
         """
 
-        if index < 0 or index > self.size() - 1:
+        if index < 0 or index > self.size():
             raise ValueError("Index out of bound")
-
+        
         current = self.head
         count = 0
 

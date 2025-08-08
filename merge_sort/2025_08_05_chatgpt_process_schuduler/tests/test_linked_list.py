@@ -81,7 +81,7 @@ def test_linkedlist_add_node_failure():
     assert n1.has_neighbor() is True
 
     llist = LinkedList()
-    with pytest.raises(ValueError, match="A node with neighbor could not be added to a LinkedList"):
+    with pytest.raises(ValueError, match="A Node with neighbor could not be a LinkedList head."):
         llist.add_node(n1)
 
 
@@ -122,36 +122,43 @@ def test_linkedlist_traverse_success_zero_nodes():
     Test LinkedList method traverse's success with a LinkedList
     with zero Nodes.
     """
+    
+    llist = LinkedList()
+    assert llist.traverse(0) == None
 
-    # TODO
-    ...
 
-def test_linkedlist_traverse_failure_zero_nodes():
+def test_linkedlist_traverse_failure_zero_out_of_bound():
     """
-    Test LinkedList method traverse's failure with a LinkedList
-    with zero Node.
+    Test LinkedList method traverse's trying to find index 1
+    on a empty LinkedList.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    with pytest.raises(ValueError, match="Index out of bound"):
+        llist.traverse(1)
 
 def test_linkedlist_traverse_success_one_node():
     """
     Test LinkedList method traverse's success with a LinkedList
-    with one Node.
+    with one Node (finding node index 1).
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    llist.add(10, 10)
+
+    assert llist.traverse(0) == Node(10, 10)
 
 def test_linkedlist_traverse_failure_one_node():
     """
-    Test LinkedList method traverse's failure with a LinkedList
-    with one Node.
+    Test LinkedList method traverse's trying to find index 2
+    on a one Node LinkedList.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    llist.add(10, 10)
+
+    with pytest.raises(ValueError, match="Index out of bound"):
+        llist.traverse(2)
 
 
 def test_linkedlist_traverse_success_multiple_nodes():
@@ -160,17 +167,24 @@ def test_linkedlist_traverse_success_multiple_nodes():
     with multiple Nodes.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    for n in range(1, 101):
+        llist.add(n, n)
+
+    assert llist.traverse(97) == Node(3, 3)
 
 def test_linkedlist_traverse_failure_multiple_nodes():
     """
-    Test LinkedList method traverse's failure with a LinkedList
-    with multiple Nodes.
+    Test LinkedList method traverse's trying to find index 101
+    on a 100 Node LinkedList.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    for n in range(1, 101):
+        llist.add(n, n)
+
+    with pytest.raises(ValueError, match="Index out of bound"):
+        llist.traverse(101)
 
 
 def test_linkedlist_repr_zero_nodes():
@@ -189,6 +203,7 @@ def test_linkedlist_repr_one_node():
 
     llist = LinkedList()
     llist.add(10, 10)
+
     assert llist.__repr__() == "<Head: pid 10 | prio 10>"
 
 
@@ -197,5 +212,11 @@ def test_linkedlist_repr_multiple_nodes():
     Test LinkedList method __repr__ in a LinkedList with multiple Nodes.
     """
 
-    # TODO
-    ...
+    llist = LinkedList()
+    llist.add(10, 10)
+    llist.add(11, 11)
+    llist.add(12, 12)
+    llist.add(13, 13)
+
+    assert llist.__repr__() == "<Head: pid 10 | prio 10> → <pid 11 | prio 11> → <pid 12 | prio 12> → <Tail: pid 12 | prio 12>"
+
