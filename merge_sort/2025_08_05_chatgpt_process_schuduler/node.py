@@ -34,6 +34,11 @@ class Node:
 
         return self.neighbor is not None
 
+    def del_neighbor(self) -> None:
+        """A method that removes Node's current neighbor"""
+
+        self.neighbor = None
+
     def __eq__(self, other: 'Node') -> bool:
         """Determine if a Node is equal to other"""
         if not isinstance(other, Node):

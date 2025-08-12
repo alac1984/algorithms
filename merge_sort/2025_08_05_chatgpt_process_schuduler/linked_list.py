@@ -19,9 +19,6 @@ class LinkedList:
         Internal method to validate head addition.
         """
 
-        if node.neighbor != self.head:
-            raise ValueError("A Node with neighbor could not be a LinkedList head.")
-
         self.head = node
 
     def is_empty(self) -> bool:
@@ -71,11 +68,6 @@ class LinkedList:
             current = current.neighbor
 
         return count
-
-    def sort(self) -> None:
-        ...
-
-        # TODO: Method
 
     def traverse(self, index: int) -> Node:
         """

@@ -55,34 +55,16 @@ def test_linkedlist_add_failure_pid_over_max():
         llist = LinkedList()
         llist.add(10**10, 10)
 
+
 def test_linkedlist_add_node_success():
     """
     Test LinkedList method add_node with a possible Node.
     """
     node = Node(10, 10)
-    assert node.has_neighbor() is False
-
     llist = LinkedList()
     llist.add_node(node)
 
     assert llist.head == node
-
-
-def test_linkedlist_add_node_failure():
-    """
-    Test LinkedList method add_node with a Node not eligible for
-    addition (i.e. the Node already has a neighbor.)
-    """
-
-    n1 = Node(10, 10)
-    n2 = Node(11, 11)
-    n1.set_neighbor(n2)
-
-    assert n1.has_neighbor() is True
-
-    llist = LinkedList()
-    with pytest.raises(ValueError, match="A Node with neighbor could not be a LinkedList head."):
-        llist.add_node(n1)
 
 
 def test_linkedlist_size_zero_node():
@@ -218,5 +200,5 @@ def test_linkedlist_repr_multiple_nodes():
     llist.add(12, 12)
     llist.add(13, 13)
 
-    assert llist.__repr__() == "<Head: pid 10 | prio 10> → <pid 11 | prio 11> → <pid 12 | prio 12> → <Tail: pid 12 | prio 12>"
+    assert llist.__repr__() == "<Head: pid 13 | prio 13> → <pid 12 | prio 12> → <pid 11 | prio 11> → <Tail: pid 10 | prio 10>"
 

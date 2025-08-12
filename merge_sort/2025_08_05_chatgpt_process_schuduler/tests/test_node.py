@@ -121,6 +121,24 @@ def test_node_eq_false():
 
     assert n1 != n2
 
+
+def test_node_del_neighbor_success():
+    """
+    Test deletion of a existing neighbor.
+    """
+
+    # TODO
+    ...
+
+def test_node_del_neighbor_failure():
+    """
+    Test deletion of a non-existing neighbor.
+    """
+
+    # TODO
+    ...
+
+
 def test_node_repr():
     """
     Test if __repr__ is correctly defined.
