@@ -8,53 +8,62 @@ def merge_sort(llist: LinkedList) -> str:
     a printed version of the sorting.
     """
 
-    # Condition to stop division 
-    if llist.size() == 1:
+    # Casos base rápidos (evita custo de llist.size())
+    if llist.head is None or llist.head.neighbor is None:
         return llist
 
-    # Get the mid index
-    mid = llist.size() // 2
+    def split(head: Node) -> tuple[Node, Node]:
+        """Divide a lista em duas metades [head..mid-1], [mid..] e corta o elo."""
+        slow, fast = head, head.neighbor
+        while fast and fast.neighbor:
+            slow = slow.neighbor
+            fast = fast.neighbor.neighbor
+        mid = slow.neighbor
+        slow.neighbor = None
+        return head, mid
 
-    # Get the mid node
-    mid_node = llist.traverse(mid)
+    def comes_before(a: Node, b: Node) -> bool:
+        """Regra de ordenação estável: prio ASC, depois pid ASC; empates mantêm ordem."""
+        if a.prio != b.prio:
+            return a.prio < b.prio
+        if a.pid != b.pid:
+            return a.pid < b.pid
+        return True  # estável: se tudo empata, mantém 'a' antes de 'b'
 
-    # Create the two lists
-    right_half = LinkedList()
-    right_head = mid_node.neighbor
-    mid_node.del_neighbor()
-    left_half = llist
-    right_half.add_node(right_head)
+    def merge(a: Node, b: Node) -> Node:
+        """Intercala duas listas já ordenadas, religando ponteiros (sem criar nós reais)."""
+        dummy = Node(1, 0)  # sentinela (constante); prio/pid válidos
+        tail = dummy
+        while a and b:
+            if comes_before(a, b):
+                tail.neighbor, a = a, a.neighbor
+            else:
+                tail.neighbor, b = b, b.neighbor
+            tail = tail.neighbor
+        tail.neighbor = a if a else b
+        head = dummy.neighbor
+        dummy.neighbor = None  # opcional: solta referencia
+        return head
 
-    # Sort the lists
-    left = merge_sort(left_half)
-    right = merge_sort(right_half)
+    def sort(head: Node) -> Node:
+        if head is None or head.neighbor is None:
+            return head
+        left, right = split(head)
+        left = sort(left)
+        right = sort(right)
+        return merge(left, right)
 
-    # Merge the lists
-    return merge(left, right)
-
-
-def merge(left: LinkedList, right: LinkedList) -> LinkedList:
-    merged = LinkedList()
-    tail = None
-    a, b = left.head, right.head
-
-    return a, b
-
-    while a and b:
-        if a.prio < b.prio:
-            if a.pid < b.pid:
-                merged.add_node(a)
+    llist.head = sort(llist.head)
+    return llist
 
 
 
 if __name__ == "__main__":
-    llist1 = LinkedList()
-    llist1.add(1, 10)
-    llist1.add(2, 11)
-    
-    llist2 = LinkedList()
-    llist2.add(3, 12)
-    llist2.add(4, 13)
-    llist2.add(5, 15)
+    llist = LinkedList()
+    llist.add(1, 10)
+    llist.add(2, 11)
+    llist.add(3, 12)
+    llist.add(4, 13)
+    llist.add(5, 15)
 
-    print(merge(llist1, llist2))
+    print(merge_sort(llist))
